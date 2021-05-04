@@ -1,3 +1,31 @@
 form {
   padding: 5%;
 }
+
+p {
+  padding: 0;
+  margin: 0;
+}
+
+footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: #3f3f44;
+  color: #fff;
+  text-align: center;
+  padding: 1% 0;
+}
+
+a {
+  color: #fff;
+}
+
+a:hover {
+  color: #000;
+}
+.head-container {
+  padding: 1% 1% 1% 0;
+  background-color: #3f3f44;
+}

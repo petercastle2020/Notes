@@ -35,7 +35,7 @@ app.get("/", function (req, res) {
 });
 
 app.get("/compose", function (req, res) {
-  res.sendFile(__dirname + "/compose.html");
+  res.render("partials/compose");
 });
 
 app.post("/compose", function (req, res) {
