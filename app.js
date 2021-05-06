@@ -47,10 +47,21 @@ app.post("/compose", function (req, res) {
   res.redirect("/worries");
 });
 
+app.post("/delete", function (req, res) {
+  if (req.body.btn === "delete") {
+    console.log("delete btn clicked.");
+  } else if (req.body.btn === "edit") {
+    console.log("edit btn clicked.");
+  } else {
+    console.log("error");
+  }
+});
+
 app.listen(3000, function () {
   console.log("Server running on port 3000");
 });
 
+console.log(worries);
 // testing ejs
 
 // <% for (i = 0; i < worryList.length; i++) { %>
