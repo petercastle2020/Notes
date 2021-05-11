@@ -2,9 +2,12 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 mongoose.connect("mongodb://localhost:27017/worriesList", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  useFindAndModify: false,
 });
 
 const worrySchema = new mongoose.Schema({
@@ -14,35 +17,7 @@ const worrySchema = new mongoose.Schema({
 
 const Worry = mongoose.model("Worry", worrySchema);
 
-// const worry = new Worry({
-//   title: "testing database",
-//   content: "anything just testing to see what's happen.",
-// });
-
-// worry.save();
-
-Worry.find(function (err, worries) {
-  if (err) {
-    console.log(err);
-  } else {
-    console.log(worries);
-  }
-});
-
-// const worries = [
-//   {
-//     title: "test",
-//     content: "test contente",
-//   },
-//   { title: "test2", content: "test contente2" },
-//   { title: "test3", content: "test contente3" },
-//   { title: "test4", content: "test contente4" },
-//   { title: "test5", content: "test contente5" },
-//   { title: "test6", content: "test contente6" },
-//   { title: "test7", content: "test contente7" },
-//   { title: "test8", content: "test contente8" },
-//   { title: "test9", content: "test contente9" },
-// ];
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 const app = express();
 
@@ -57,16 +32,12 @@ app.get("/worries", function (req, res) {
     if (err) {
       console.log(err);
     } else {
-      mongoose.connection.close();
-      console.log(worries);
+      // mongoose.connection.close();
       res.render("partials/worries", {
         worryList: worries,
       });
     }
   });
-  // res.render("partials/worries", {
-  //   worryList: worries,
-  // });
 });
 
 app.get("/", function (req, res) {
@@ -78,13 +49,6 @@ app.get("/compose", function (req, res) {
 });
 
 app.post("/compose", function (req, res) {
-  // const worry = {
-  //   title: req.body.title,
-  //   content: req.body.content,
-  // };
-  // worries.push(worry);
-  // res.redirect("/worries");
-
   const worry = new Worry({
     title: req.body.title,
     content: req.body.content,
@@ -95,23 +59,47 @@ app.post("/compose", function (req, res) {
 });
 
 app.post("/delete", function (req, res) {
-  if (req.body.btn === "delete") {
-    console.log("delete btn clicked.");
-  } else if (req.body.btn === "edit") {
-    console.log("edit btn clicked.");
-  } else {
-    console.log("error");
-  }
+  Worry.deleteOne({ _id: req.body.delete }, function (err) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("worry deleted!");
+      res.redirect("/worries");
+    }
+  });
+});
+
+app.post("/edit", function (req, res) {
+  const id = req.body.edit;
+  Worry.findById({ _id: id }, function (err, worry) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.render("partials/edit", { editWorry: worry });
+    }
+  });
+});
+
+app.post("/save", function (req, res) {
+  const newTitle = req.body.title;
+  const newContent = req.body.content;
+  const Id = req.body._id;
+
+  Worry.findByIdAndUpdate(
+    Id,
+    { title: newTitle, content: newContent },
+    function (err, worry) {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log("successfully Updated the document.");
+      }
+    }
+  );
+
+  res.redirect("/worries");
 });
 
 app.listen(3000, function () {
   console.log("Server running on port 3000");
 });
-
-// console.log(worries);
-// testing ejs
-
-// <% for (i = 0; i < worryList.length; i++) { %>
-//   <h1><%=worryList[i].title%></h1>
-//   <h2><%=worryList[i].content%></h2>
-//   <% } %>

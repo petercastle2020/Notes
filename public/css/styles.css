@@ -1,12 +1,3 @@
-.compose-form {
-  padding: 5%;
-}
-
-.btn-form {
-  position: relative;
-  display: inline;
-}
-
 p {
   padding: 0;
   margin: 0;
@@ -33,4 +24,17 @@ a:hover {
 .head-container {
   padding: 1% 1% 1% 0;
   background-color: #3f3f44;
+}
+
+.compose-form {
+  padding: 5%;
+}
+
+.edit-form {
+  padding: 5%;
+}
+
+.btn-form {
+  position: relative;
+  display: inline;
 }
