@@ -33,19 +33,15 @@ app.get("/worries", function (req, res) {
       console.log(err);
     } else {
       // mongoose.connection.close();
-      res.render("partials/worries", {
+      res.render("worries", {
         worryList: worries,
       });
     }
   });
 });
 
-app.get("/", function (req, res) {
-  res.sendFile(__dirname + "/compose.html");
-});
-
 app.get("/compose", function (req, res) {
-  res.render("partials/compose");
+  res.render("compose");
 });
 
 app.post("/compose", function (req, res) {
@@ -75,7 +71,7 @@ app.post("/edit", function (req, res) {
     if (err) {
       console.log(err);
     } else {
-      res.render("partials/edit", { editWorry: worry });
+      res.render("edit", { editWorry: worry });
     }
   });
 });
@@ -98,6 +94,20 @@ app.post("/save", function (req, res) {
   );
 
   res.redirect("/worries");
+});
+
+//////////////////////////////////////  LOGIN SECTION //////////////////////////////////////
+
+app.get("/", function (req, res) {
+  res.render("home");
+});
+
+app.get("/login", function (req, res) {
+  res.render("login");
+});
+
+app.get("/register", function (req, res) {
+  res.render("register");
 });
 
 app.listen(3000, function () {

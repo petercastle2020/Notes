@@ -14,7 +14,7 @@
     <title>worries list</title>
   </head>
   <body>
-    <%- include("header"); -%>
+    <%- include("partials/header"); -%>
         <div class="row">
           
         <% worryList.forEach(function(worry) { %>
@@ -55,6 +55,7 @@
       integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc"
       crossorigin="anonymous"
     ></script>
-    <%- include("footer"); -%>
+    <script src="app.js"></script>
+    <%- include("partials/footer"); -%>
   </body>
 </html>

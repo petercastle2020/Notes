@@ -3,6 +3,11 @@ p {
   margin: 0;
 }
 
+header {
+  padding: 1% 1% 1% 0;
+  background-color: #3f3f44;
+}
+
 footer {
   position: fixed;
   left: 0;
@@ -21,10 +26,6 @@ a {
 a:hover {
   color: #000;
 }
-.head-container {
-  padding: 1% 1% 1% 0;
-  background-color: #3f3f44;
-}
 
 .compose-form {
   padding: 5%;
@@ -37,4 +38,15 @@ a:hover {
 .btn-form {
   position: relative;
   display: inline;
+}
+
+/*************************** HOME SECTION *******************************/
+
+.home-container {
+  background-color: #e1e5ea;
+  margin: 0;
+}
+
+.home-img {
+  margin: 0;
 }
