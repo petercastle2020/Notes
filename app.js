@@ -35,13 +35,14 @@ app.get("/worries", function (req, res) {
       // mongoose.connection.close();
       res.render("worries", {
         worryList: worries,
+        pageTitle: "Worries",
       });
     }
   });
 });
 
 app.get("/compose", function (req, res) {
-  res.render("compose");
+  res.render("compose", { pageTitle: "Compose" });
 });
 
 app.post("/compose", function (req, res) {
@@ -71,7 +72,7 @@ app.post("/edit", function (req, res) {
     if (err) {
       console.log(err);
     } else {
-      res.render("edit", { editWorry: worry });
+      res.render("edit", { editWorry: worry, pageTitle: "Edit" });
     }
   });
 });
@@ -99,15 +100,19 @@ app.post("/save", function (req, res) {
 //////////////////////////////////////  LOGIN SECTION //////////////////////////////////////
 
 app.get("/", function (req, res) {
-  res.render("home");
+  res.render("home", { pageTitle: "Worries Notes" });
+});
+
+app.get("/connect", function (req, res) {
+  res.render("connect", { pageTitle: "Conect with social media" });
 });
 
 app.get("/login", function (req, res) {
-  res.render("login");
+  res.render("login", { pageTitle: "Login" });
 });
 
 app.get("/register", function (req, res) {
-  res.render("register");
+  res.render("register", { pageTitle: "Register" });
 });
 
 app.listen(3000, function () {

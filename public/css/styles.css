@@ -1,31 +1,24 @@
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
+  overflow-x: hidden;
+}
+
 p {
   padding: 0;
   margin: 0;
 }
 
-header {
-  padding: 1% 1% 1% 0;
-  background-color: #3f3f44;
-}
-
-footer {
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  background-color: #3f3f44;
-  color: #fff;
-  text-align: center;
-  padding: 1% 0;
-}
-
-/* a {
+a {
   color: #fff;
 }
 
 a:hover {
   color: #000;
-} */
+}
 
 .compose-form {
   padding: 5%;
@@ -40,14 +33,14 @@ a:hover {
   display: inline;
 }
 
-/*************************** HOME SECTION *******************************/
+/*************************** NAV-BAR SECTION *******************************/
 
-/* .home-container {
-  background-image: url("images/note_and_notebook.jpg");
-  
-  width: 50%;
-  height: 50%px;
-} */
+.nav-bar-container {
+  padding: 1% 1% 1% 0;
+  background-color: #3f3f44;
+}
+
+/*************************** HOME SECTION *******************************/
 
 .home-body {
   background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),
@@ -59,7 +52,7 @@ a:hover {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 90vh;
 }
 
 a.btn-shine {
@@ -99,4 +92,38 @@ a.btn-shine {
 
 .btn-shine:hover:before {
   left: 100%;
+}
+
+/*************************** CONNECT SECTION *******************************/
+
+.connect-body {
+  background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),
+    url("images/note_and_notebook.jpg") no-repeat center center/cover;
+  font-family: Arial, Helvetica, sans-serif;
+  height: 60vh;
+}
+
+.connect-social-media {
+  /* border-style: solid;
+  /* border-width: 5px;
+  border-color: #3f3f44; */
+
+  border: 2px solid #3f3f44;
+  border-radius: 10px;
+  position: relative;
+  margin: 15% 35% 15% 35%;
+  padding: 2% 1% 2% 1%;
+}
+
+.btn-google {
+  display: block;
+  width: auto;
+  height: auto;
+  margin-bottom: 2%;
+}
+
+.btn-facebook {
+  display: block;
+  width: auto;
+  height: auto;
 }
