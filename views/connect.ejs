@@ -1,12 +1,20 @@
 <%- include("partials/header"); -%>
   <body class="connect-body">
-    <div class="connect-social-media">
-      <a class="btn btn-lg btn-social btn-google">
-        <i class="fab fa-google"></i> Connect with Google
-      </a>
-      <a class="btn btn-lg btn-social btn-facebook">
-        <i class="fab fa-facebook-f"></i> Connect with Facebook
-      </a>
+    <div class="connect-div">
+      <div class="row">
+        <div class="column social-media-div">
+        <a class="btn btn-md btn-social btn-google">
+          <i class="fab fa-google"></i> Connect with Google
+        </a>
+        <a class="btn btn-md btn-social btn-facebook">
+          <i class="fab fa-facebook-f"></i> Connect with Facebook
+        </a>
+        </div>
+        <div class="column login-register-div">
+          <a href="/login" class="btn btn-outline-light btn-md a-login">Login</a>
+          <a href="/register" class="btn btn-outline-light btn-md a-register" >Register</a>
+        </div>
+      </div>
     </div>
    <%- include("partials/footer"); -%>
   </body>

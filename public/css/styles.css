@@ -5,6 +5,7 @@ body {
   margin: 0px;
   padding: 0px;
   overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 p {
@@ -103,16 +104,34 @@ a.btn-shine {
   height: 60vh;
 }
 
-.connect-social-media {
-  /* border-style: solid;
-  /* border-width: 5px;
-  border-color: #3f3f44; */
-
-  border: 2px solid #3f3f44;
+.connect-div {
+  border: 1px solid #3f3f44;
   border-radius: 10px;
   position: relative;
   margin: 15% 35% 15% 35%;
-  padding: 2% 1% 2% 1%;
+  padding: 5% 1% 5% 2%;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.social-media-div.column {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 100%;
+  flex: 1;
+}
+
+.login-register-div.column {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 100%;
+  flex: 1;
+  border-left: 2px solid #3f3f44;
 }
 
 .btn-google {
@@ -126,4 +145,75 @@ a.btn-shine {
   display: block;
   width: auto;
   height: auto;
+}
+
+.a-login {
+  display: block;
+  width: auto;
+  height: auto;
+  margin-bottom: 2%;
+}
+
+.a-regsiter {
+  display: block;
+  width: auto;
+  height: auto;
+}
+
+/*************************** LOGIN SECTION *******************************/
+
+h1.login {
+  color: #fff;
+  display: inline;
+}
+
+.login-body {
+  background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),
+    url("images/note_and_notebook.jpg") no-repeat center center/cover;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.login-div {
+  display: block;
+  margin: 15% 30%;
+}
+.login-div .row {
+  display: inline;
+}
+
+.login-div .row .col-sm-8 {
+  display: inline;
+}
+
+.login-btn {
+  margin-top: 3%;
+}
+
+/*************************** REGISTER SECTION *******************************/
+
+h1.register {
+  color: #fff;
+  display: inline;
+}
+
+.register-body {
+  background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),
+    url("images/note_and_notebook.jpg") no-repeat center center/cover;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.register-div {
+  display: block;
+  margin: 15% 30%;
+}
+.register-div .row {
+  display: inline;
+}
+
+.register-div .row .col-sm-8 {
+  display: inline;
+}
+
+.register-btn {
+  margin-top: 3%;
 }
