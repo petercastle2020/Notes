@@ -17,6 +17,22 @@ const worrySchema = new mongoose.Schema({
 
 const Worry = mongoose.model("Worry", worrySchema);
 
+const userSchema = new mongoose.Schema({
+  email: String,
+  password: String,
+  notes: [{ title: String, content: String }],
+});
+
+const User = mongoose.model("User", userSchema);
+
+const user = new User({
+  email: "test2@gmail.com.com",
+  password: "qwert",
+  notes: [{ title: "test title 2", content: "test content 2" }],
+});
+
+// user.save();
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 const app = express();
@@ -28,15 +44,17 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 app.get("/worries", function (req, res) {
-  Worry.find(function (err, worries) {
+  User.find(function (err, userdata) {
     if (err) {
       console.log(err);
     } else {
       // mongoose.connection.close();
+
       res.render("worries", {
-        worryList: worries,
+        userdata: userdata,
         pageTitle: "Worries",
       });
+      console.log(userdata);
     }
   });
 });
@@ -97,6 +115,36 @@ app.post("/save", function (req, res) {
   res.redirect("/worries");
 });
 
+app.post("/register", function (req, res) {
+  const user = new User({
+    email: req.body.username,
+    password: req.body.password,
+    notes: [],
+  });
+
+  res.send("thanks for it");
+
+  console.log(req.body.username);
+  console.log(req.body.password);
+
+  // user.save();
+});
+
+app.post("/login", function (req, res) {
+  const loginUsername = req.body.username;
+  const loginPassword = req.body.password;
+  User.findOne({ email: loginUsername }, function (err, foundUser) {
+    if (err) {
+      console.log(err);
+    } else {
+      if (foundUser) {
+        if (foundUser.password === loginPassword) {
+          res.send("you did you son of bitch!");
+        }
+      }
+    }
+  });
+});
 //////////////////////////////////////  LOGIN SECTION //////////////////////////////////////
 
 app.get("/", function (req, res) {
