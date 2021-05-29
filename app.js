@@ -44,17 +44,19 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 app.get("/worries", function (req, res) {
-  User.find(function (err, userdata) {
+  const userID = "60af8e8b9a2dfb2ceccbf253";
+
+  User.findById({ _id: userID }, function (err, userdata) {
     if (err) {
       console.log(err);
     } else {
       // mongoose.connection.close();
+      const userNotes = userdata.notes;
 
       res.render("worries", {
-        userdata: userdata,
+        userNotes: userNotes,
         pageTitle: "Worries",
       });
-      console.log(userdata);
     }
   });
 });
@@ -64,13 +66,27 @@ app.get("/compose", function (req, res) {
 });
 
 app.post("/compose", function (req, res) {
-  const worry = new Worry({
-    title: req.body.title,
-    content: req.body.content,
-  });
+  const newTitle = req.body.title;
+  const newContent = req.body.content;
 
-  worry.save();
-  res.redirect("/worries");
+  // NEED TO CATCH THE USER ID TO MAKE CHANGES <<<
+  const userID = "60af8e8b9a2dfb2ceccbf253";
+
+  User.findByIdAndUpdate(
+    { _id: userID },
+    {
+      $push: {
+        notes: { title: newTitle, content: newContent },
+      },
+    },
+    function (err) {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log("pushing complete son!");
+      }
+    }
+  );
 });
 
 app.post("/delete", function (req, res) {
@@ -139,7 +155,7 @@ app.post("/login", function (req, res) {
     } else {
       if (foundUser) {
         if (foundUser.password === loginPassword) {
-          res.send("you did you son of bitch!");
+          res.render("worries", { pageTitle: "Worries" });
         }
       }
     }
