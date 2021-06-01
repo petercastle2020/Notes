@@ -1,21 +1,38 @@
+require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+/////////////////////////////////////////////////////////////////////////////////////////
+const session = require("express-session");
+const passport = require("passport");
+const passportLocalMongoose = require("passport-local-mongoose");
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
+
+const app = express();
+
+app.use(express.static("public"));
+app.set("view engine", "ejs");
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(
+  session({
+    secret: process.env.SECRET,
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+////////////////////////////////////////////////////////////////////////////////////////////////
 
 mongoose.connect("mongodb://localhost:27017/worriesList", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useFindAndModify: false,
+  useCreateIndex: true,
 });
-
-const worrySchema = new mongoose.Schema({
-  title: String,
-  content: String,
-});
-
-const Worry = mongoose.model("Worry", worrySchema);
 
 const userSchema = new mongoose.Schema({
   email: String,
@@ -23,42 +40,66 @@ const userSchema = new mongoose.Schema({
   notes: [{ title: String, content: String }],
 });
 
-const User = mongoose.model("User", userSchema);
+userSchema.plugin(passportLocalMongoose);
 
-const user = new User({
-  email: "test2@gmail.com.com",
-  password: "qwert",
-  notes: [{ title: "test title 2", content: "test content 2" }],
-});
+const User = new mongoose.model("User", userSchema);
+
+passport.use(User.createStrategy());
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+// const user = new User({
+//   email: "test2@gmail.com.com",
+//   password: "qwert",
+//   notes: [{ title: "test title 3", content: "test content 3" }],
+// });
 
 // user.save();
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-const app = express();
-
-app.set("view engine", "ejs");
-
-app.use(bodyParser.urlencoded({ extended: true }));
-
-app.use(express.static("public"));
-
 app.get("/worries", function (req, res) {
-  const userID = "60af8e8b9a2dfb2ceccbf253";
+  if (req.isAuthenticated()) {
+    const userID = req.user._id;
 
-  User.findById({ _id: userID }, function (err, userdata) {
-    if (err) {
-      console.log(err);
-    } else {
-      // mongoose.connection.close();
-      const userNotes = userdata.notes;
+    console.log(req.user._id);
 
-      res.render("worries", {
-        userNotes: userNotes,
-        pageTitle: "Worries",
-      });
-    }
-  });
+    User.findById({ _id: userID }, function (err, userdata) {
+      if (err) {
+        console.log(err);
+      } else {
+        // mongoose.connection.close();
+
+        const userNotes = userdata.notes;
+
+        res.render("worries", {
+          userNotes: userNotes,
+          pageTitle: "Worries",
+        });
+      }
+    });
+  } else {
+    res.redirect("/login");
+  }
+  // const userID = "60b38ce3576daa18245f0df1";
+
+  // User.findById({ _id: userID }, function (err, userdata) {
+  //   if (err) {
+  //     console.log(err);
+  //   } else {
+  //     // mongoose.connection.close();
+
+  //     const userNotes = userdata.notes;
+
+  //     res.render("worries", {
+  //       userNotes: userNotes,
+  //       pageTitle: "Worries",
+  //     });
+
+  //     console.log(req);
+  //   }
+  // });
 });
 
 app.get("/compose", function (req, res) {
@@ -70,7 +111,7 @@ app.post("/compose", function (req, res) {
   const newContent = req.body.content;
 
   // NEED TO CATCH THE USER ID TO MAKE CHANGES <<<
-  const userID = "60af8e8b9a2dfb2ceccbf253";
+  const userID = "60b38ce3576daa18245f0df1";
 
   User.findByIdAndUpdate(
     { _id: userID },
@@ -132,35 +173,84 @@ app.post("/save", function (req, res) {
 });
 
 app.post("/register", function (req, res) {
-  const user = new User({
-    email: req.body.username,
-    password: req.body.password,
-    notes: [],
-  });
+  // const user = new User({
+  //   email: req.body.username,
+  //   password: req.body.password,
+  //   notes: [],
+  // });
 
-  res.send("thanks for it");
+  // res.send("thanks for it");
 
-  console.log(req.body.username);
-  console.log(req.body.password);
+  // console.log(req.body.username);
+  // console.log(req.body.password);
 
-  // user.save();
+  // // user.save();
+  User.register(
+    { username: req.body.username },
+    req.body.password,
+    function (err, user) {
+      if (err) {
+        console.log(err);
+        res.redirect("/register");
+      } else {
+        passport.authenticate("local")(req, res, function () {
+          res.redirect("/worries");
+        });
+      }
+    }
+  );
 });
 
 app.post("/login", function (req, res) {
-  const loginUsername = req.body.username;
-  const loginPassword = req.body.password;
-  User.findOne({ email: loginUsername }, function (err, foundUser) {
+  // const loginUsername = req.body.username;
+  // const loginPassword = req.body.password;
+  // User.findOne({ email: loginUsername }, function (err, userdata) {
+  //   if (err) {
+  //     console.log(err);
+  //   } else {
+  //     if (userdata) {
+  //       if (userdata.password === loginPassword) {
+  //         const userNotes = userdata.notes;
+
+  //         res.render("worries", {
+  //           pageTitle: "Worries",
+  //           userNotes: userNotes,
+  //         });
+  //       }
+  //     }
+  //   }
+  // });
+  const user = new User({
+    username: req.body.username,
+    password: req.body.password,
+  });
+
+  req.login(user, function (err) {
     if (err) {
       console.log(err);
     } else {
-      if (foundUser) {
-        if (foundUser.password === loginPassword) {
-          res.render("worries", { pageTitle: "Worries" });
-        }
-      }
+      passport.authenticate("local")(req, res, function () {
+        res.redirect("/worries");
+      });
     }
   });
 });
+
+// const userID = "60b38ce3576daa18245f0df1";
+
+//   User.findById({ _id: userID }, function (err, userdata) {
+//     if (err) {
+//       console.log(err);
+//     } else {
+//       // mongoose.connection.close();
+
+//       const userNotes = userdata.notes;
+
+//       res.render("worries", {
+//         userNotes: userNotes,
+//         pageTitle: "Worries",
+//       });
+
 //////////////////////////////////////  LOGIN SECTION //////////////////////////////////////
 
 app.get("/", function (req, res) {
@@ -177,6 +267,11 @@ app.get("/login", function (req, res) {
 
 app.get("/register", function (req, res) {
   res.render("register", { pageTitle: "Register" });
+});
+
+app.get("/logout", function (req, res) {
+  req.logout();
+  res.redirect("/");
 });
 
 app.listen(3000, function () {
