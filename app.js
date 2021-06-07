@@ -52,7 +52,7 @@ passport.deserializeUser(User.deserializeUser());
 // const user = new User({
 //   email: "test2@gmail.com.com",
 //   password: "qwert",
-//   notes: [{ title: "test title 3", content: "test content 3" }],
+//   notes: { title: "AAAAAAAAA", content: "BBBBBBBBBBBBBBBBBBBB" },
 // });
 
 // user.save();
@@ -63,15 +63,13 @@ app.get("/worries", function (req, res) {
   if (req.isAuthenticated()) {
     const userID = req.user._id;
 
-    console.log(req.user._id);
-
-    User.findById({ _id: userID }, function (err, userdata) {
+    User.findById({ _id: userID }, function (err, foundUser) {
       if (err) {
         console.log(err);
       } else {
         // mongoose.connection.close();
 
-        const userNotes = userdata.notes;
+        const userNotes = foundUser.notes;
 
         res.render("worries", {
           userNotes: userNotes,
@@ -82,36 +80,20 @@ app.get("/worries", function (req, res) {
   } else {
     res.redirect("/login");
   }
-  // const userID = "60b38ce3576daa18245f0df1";
-
-  // User.findById({ _id: userID }, function (err, userdata) {
-  //   if (err) {
-  //     console.log(err);
-  //   } else {
-  //     // mongoose.connection.close();
-
-  //     const userNotes = userdata.notes;
-
-  //     res.render("worries", {
-  //       userNotes: userNotes,
-  //       pageTitle: "Worries",
-  //     });
-
-  //     console.log(req);
-  //   }
-  // });
 });
 
 app.get("/compose", function (req, res) {
-  res.render("compose", { pageTitle: "Compose" });
+  if (req.isAuthenticated()) {
+    res.render("compose", { pageTitle: "Compose" });
+  } else {
+    res.redirect("/login");
+  }
 });
 
 app.post("/compose", function (req, res) {
   const newTitle = req.body.title;
   const newContent = req.body.content;
-
-  // NEED TO CATCH THE USER ID TO MAKE CHANGES <<<
-  const userID = "60b38ce3576daa18245f0df1";
+  const userID = req.user._id;
 
   User.findByIdAndUpdate(
     { _id: userID },
@@ -124,7 +106,8 @@ app.post("/compose", function (req, res) {
       if (err) {
         console.log(err);
       } else {
-        console.log("pushing complete son!");
+        console.log("Note Added");
+        res.redirect("/worries");
       }
     }
   );
@@ -141,33 +124,122 @@ app.post("/delete", function (req, res) {
   });
 });
 
+app.get("/edit", function (req, res) {
+  if (req.isAuthenticated()) {
+    res.render("edit", { pageTitle: "Edit" });
+  } else {
+    res.redirect("/login");
+  }
+});
+
 app.post("/edit", function (req, res) {
-  const id = req.body.edit;
-  Worry.findById({ _id: id }, function (err, worry) {
+  const editNote = req.body.edit;
+  const userID = req.user._id;
+
+  User.findById({ _id: userID }, function (err, foundUser) {
     if (err) {
       console.log(err);
     } else {
-      res.render("edit", { editWorry: worry, pageTitle: "Edit" });
+      const notesArray = foundUser.notes;
+
+      const note = findNote(editNote, notesArray);
+
+      function findNote(editNote, notesArray) {
+        for (let i = 0; i < notesArray.length; i++) {
+          if (notesArray[i]._id == editNote) {
+            return notesArray[i];
+          } else {
+            console.log("not found!");
+          }
+        }
+      }
+
+      res.render("edit", { note: note, pageTitle: "Edit" });
     }
   });
+
+  //   User.find({ _id: userID }).elemMatch(
+  //     { notes: { _id: editNote } },
+  //     function (err, foundData) {
+  //       if (err) {
+  //         console.log(err);
+  //       } else {
+  //         console.log(foundData);
+  //       }
+  //     }
+  //   );
+  // });
+
+  // User.find({ _id: userID }).elemMatch(
+  //   { notes: { _id: editNote } },
+  //   function (foundData) {
+  //     console.log(foundData);
+  //   }
+  // );
+
+  // User.find()
+  //   .where(User.notes)
+  //   .elemMatch({ _id: editNote }, function (err, foundData) {
+  //     if (err) {
+  //       console.log(err);
+  //     } else {
+  //       console.log(foundData);
+  //     }
+  //   });
 });
 
 app.post("/save", function (req, res) {
   const newTitle = req.body.title;
   const newContent = req.body.content;
-  const Id = req.body._id;
+  const idNote = req.body._id;
 
-  Worry.findByIdAndUpdate(
-    Id,
-    { title: newTitle, content: newContent },
-    function (err, worry) {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log("successfully Updated the document.");
+  const userID = req.user._id;
+
+  User.findById({ _id: userID }, function (err, foundUser) {
+    if (err) {
+      console.log(err);
+    } else {
+      const notesArray = foundUser.notes;
+
+      const note = findNote(idNote, notesArray);
+
+      function findNote(idNote, notesArray) {
+        for (i = 0; i < notesArray.length; i++) {
+          if (notesArray[i]._id == idNote) {
+            notesArray.splice(i, 1);
+            // return notesArray[i];
+            return notesArray;
+          } else {
+            console.log("note found");
+          }
+        }
       }
+
+      // function findNote(idNote, notesArray) {
+      //   for (i = 0; i < notesArray.length; i++) {
+      //     if (notesArray[i]._id == idNote) {
+      //       return notesArray[i];
+      //     } else {
+      //       console.log("note found");
+      //     }
+      //   }
+      // }
+
+      console.log(note);
     }
-  );
+  });
+
+  // User.findByIdAndUpdate(
+  //   idNote,
+  //   { title: newTitle, content: newContent },
+  //   function (err, worry) {
+  //     if (err) {
+  //       console.log(err);
+  //     } else {
+  //       console.log("successfully Updated the document.");
+  //     }
+  //   }
+  // );
 
   res.redirect("/worries");
 });

@@ -10,7 +10,7 @@
             class="form-control"
             id="id"
             aria-describedby="emailHelp"
-            value="<%= editWorry._id %>"
+            value="<%= note._id %>"
           />
           <label for="title" class="form-label">Title</label>
           <input
@@ -19,13 +19,13 @@
             class="form-control"
             id="title"
             aria-describedby="emailHelp"
-            value="<%= editWorry.title %>"
+            value="<%= note.title %>"
           />
         </div>
         <div class="mb-3">
           <label for="content">Content</label>
           <textarea class="form-control" name="content" id="content" rows="3">
-<%= editWorry.content %>
+<%= note.content %>
         </textarea
           >
         </div>
