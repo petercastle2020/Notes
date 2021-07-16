@@ -46,8 +46,15 @@ const User = new mongoose.model("User", userSchema);
 
 passport.use(User.createStrategy());
 
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+passport.serializeUser(function (user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function (id, done) {
+  User.findById(id, function (err, user) {
+    done(err, user);
+  });
+});
 
 // const user = new User({
 //   email: "test2@gmail.com.com",
@@ -239,7 +246,7 @@ app.get("/", function (req, res) {
 });
 
 app.get("/connect", function (req, res) {
-  res.render("connect", { pageTitle: "Conect with social media" });
+  res.render("connect", { pageTitle: "Connect with social media" });
 });
 
 app.get("/login", function (req, res) {
