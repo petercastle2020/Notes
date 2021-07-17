@@ -110,9 +110,9 @@ app.get("/notes", function (req, res) {
 
         const userNotes = foundUser.notes;
 
-        res.render("worries", {
+        res.render("notes", {
           userNotes: userNotes,
-          pageTitle: "Worries",
+          pageTitle: "Notes",
         });
       }
     });
@@ -274,7 +274,7 @@ app.post("/login", function (req, res) {
 //////////////////////////////////////  LOGIN SECTION //////////////////////////////////////
 
 app.get("/", function (req, res) {
-  res.render("home", { pageTitle: "Worries Notes" });
+  res.render("home", { pageTitle: "Notes" });
 });
 
 // Google
