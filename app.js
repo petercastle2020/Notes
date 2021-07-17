@@ -39,6 +39,7 @@ mongoose.connect("mongodb://localhost:27017/notesDB", {
 const userSchema = new mongoose.Schema({
   facebookId: String,
   googleId: String,
+  username: String,
   email: String,
   password: String,
   notes: [{ title: String, content: String }],
@@ -71,10 +72,12 @@ passport.use(
       callbackURL: "http://localhost:3000/auth/google/notes",
     },
     function (accessToken, refreshToken, profile, done) {
-      console.log(profile);
-      User.findOrCreate({ googleId: profile.id }, function (err, user) {
-        return done(err, user);
-      });
+      User.findOrCreate(
+        { googleId: profile.id, username: profile.displayName },
+        function (err, user) {
+          return done(err, user);
+        }
+      );
     }
   )
 );
@@ -89,9 +92,12 @@ passport.use(
       callbackURL: "http://localhost:3000/auth/facebook/notes",
     },
     function (accessToken, refreshToken, profile, cb) {
-      User.findOrCreate({ facebookId: profile.id }, function (err, user) {
-        return cb(err, user);
-      });
+      User.findOrCreate(
+        { facebookId: profile.id, username: profile.displayName },
+        function (err, user) {
+          return cb(err, user);
+        }
+      );
     }
   )
 );
