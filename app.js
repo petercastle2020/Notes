@@ -8,6 +8,7 @@ const passport = require("passport");
 const passportLocalMongoose = require("passport-local-mongoose");
 ///////////////////////////////////////////////////////////////////////////////////////////////
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const FacebookStrategy = require("passport-facebook").Strategy;
 const findOrCreate = require("mongoose-findorcreate");
 
 const app = express();
@@ -18,7 +19,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(
   session({
-    secret: process.env.SECRET,
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
   })
@@ -28,7 +29,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-mongoose.connect("mongodb://localhost:27017/worriesList", {
+mongoose.connect("mongodb://localhost:27017/notesDB", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useFindAndModify: false,
@@ -36,6 +37,7 @@ mongoose.connect("mongodb://localhost:27017/worriesList", {
 });
 
 const userSchema = new mongoose.Schema({
+  facebookId: String,
   googleId: String,
   email: String,
   password: String,
@@ -59,11 +61,13 @@ passport.deserializeUser(function (id, done) {
   });
 });
 
+// Google
+
 passport.use(
   new GoogleStrategy(
     {
-      clientID: process.env.CLIENT_ID,
-      clientSecret: process.env.CLIENT_SECRET,
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       callbackURL: "http://localhost:3000/auth/google/notes",
     },
     function (accessToken, refreshToken, profile, done) {
@@ -74,9 +78,27 @@ passport.use(
     }
   )
 );
+
+// Facebook
+
+passport.use(
+  new FacebookStrategy(
+    {
+      clientID: process.env.FACEBOOK_APP_ID,
+      clientSecret: process.env.FACEBOOK_APP_SECRET,
+      callbackURL: "http://localhost:3000/auth/facebook/notes",
+    },
+    function (accessToken, refreshToken, profile, cb) {
+      User.findOrCreate({ facebookId: profile.id }, function (err, user) {
+        return cb(err, user);
+      });
+    }
+  )
+);
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-app.get("/worries", function (req, res) {
+app.get("/notes", function (req, res) {
   if (req.isAuthenticated()) {
     const userID = req.user._id;
 
@@ -103,7 +125,7 @@ app.get("/compose", function (req, res) {
   if (req.isAuthenticated()) {
     res.render("compose", { pageTitle: "Compose" });
   } else {
-    res.redirect("/login");
+    res.redirect("/connect");
   }
 });
 
@@ -124,7 +146,7 @@ app.post("/compose", function (req, res) {
         console.log(err);
       } else {
         console.log("Note Added");
-        res.redirect("/worries");
+        res.redirect("/notes");
       }
     }
   );
@@ -148,7 +170,7 @@ app.post("/delete", function (req, res) {
         console.log(err);
       } else {
         console.log("Successfully deleted.");
-        res.redirect("/worries");
+        res.redirect("/notes");
       }
     }
   );
@@ -158,7 +180,7 @@ app.get("/edit", function (req, res) {
   if (req.isAuthenticated()) {
     res.render("edit", { pageTitle: "Edit" });
   } else {
-    res.redirect("/login");
+    res.redirect("/connect");
   }
 });
 
@@ -212,7 +234,7 @@ app.post("/save", function (req, res) {
     }
   );
 
-  res.redirect("/worries");
+  res.redirect("/notes");
 });
 
 app.post("/register", function (req, res) {
@@ -225,7 +247,7 @@ app.post("/register", function (req, res) {
         res.redirect("/register");
       } else {
         passport.authenticate("local")(req, res, function () {
-          res.redirect("/worries");
+          res.redirect("/notes");
         });
       }
     }
@@ -243,7 +265,7 @@ app.post("/login", function (req, res) {
       console.log(err);
     } else {
       passport.authenticate("local")(req, res, function () {
-        res.redirect("/worries");
+        res.redirect("/notes");
       });
     }
   });
@@ -255,6 +277,7 @@ app.get("/", function (req, res) {
   res.render("home", { pageTitle: "Worries Notes" });
 });
 
+// Google
 app.get(
   "/auth/google",
   passport.authenticate("google", { scope: ["profile"] })
@@ -265,7 +288,22 @@ app.get(
   passport.authenticate("google", { failureRedirect: "/connect" }),
   function (req, res) {
     //Successful authentication, redirect to notes.
-    res.redirect("/worries");
+    res.redirect("/notes");
+  }
+);
+
+// Facebook
+app.get(
+  "/auth/facebook",
+  passport.authenticate("facebook", { scope: ["public_profile"] })
+);
+
+app.get(
+  "/auth/facebook/notes",
+  passport.authenticate("facebook", { failureRedirect: "/connect" }),
+  function (req, res) {
+    // Successful authentication, redirect notes.
+    res.redirect("/notes");
   }
 );
 
