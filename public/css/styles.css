@@ -21,6 +21,9 @@ a:hover {
   color: #000;
 }
 
+.card {
+  margin: 0.5rem 0 0.5rem 0.5rem;
+}
 .compose-form {
   padding: 5%;
 }
