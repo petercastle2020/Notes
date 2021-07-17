@@ -13,8 +13,13 @@ p {
   margin: 0;
 }
 
-a {
-  color: #fff;
+li > a {
+  color: #3f3f44;
+  background-color: #f4f4f4;
+  border-radius: 0.2rem;
+  margin-right: 1rem;
+  text-transform: uppercase;
+  outline: none;
 }
 
 a:hover {
