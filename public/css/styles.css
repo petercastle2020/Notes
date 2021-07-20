@@ -4,8 +4,8 @@ body {
   height: 100%;
   margin: 0px;
   padding: 0px;
-  overflow-x: hidden;
-  overflow-y: hidden;
+  /* overflow-x: hidden;
+  overflow-y: hidden; */
 }
 
 p {
@@ -26,28 +26,42 @@ a:hover {
   color: #000;
 }
 
+.text-wrap {
+  word-break: normal;
+}
+
 .wrapper {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
 }
 
 .card-container {
-  margin: 0.5rem 0.5rem 0.5rem 0.5rem;
-  border: rgba(0, 0, 0, 0.25) solid 1px;
+  border: rgba(0, 0, 0, 0.25) solid 0.5px;
   border-radius: 0.2rem;
-  box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.1);
+  margin: 0.5rem 0.5rem 0.5rem 0.5rem;
+  width: 25vmax;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+@media screen and (max-width: 480px) {
+  .card-container {
+    width: 100vw;
+  }
 }
 
 .card-body-container {
   margin: 0.5rem 0.5rem 0.5rem 0.5rem;
 }
-.card-btns {
-  margin: 0.5rem 0.5rem 0.5rem 0.5rem;
-}
+
 .card-btns .btn {
   border: rgba(0, 0, 0, 0.25) solid 1px;
   border-radius: 0.2rem;
   box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.25);
+  display: inline;
+  margin: 0.5rem 0rem 0.5rem 0.5rem;
 }
 .compose-form {
   padding: 5%;
@@ -140,9 +154,17 @@ a.btn-shine {
 .connect-div {
   border: 1px solid #3f3f44;
   border-radius: 10px;
-  position: relative;
-  margin: 15% 35% 15% 35%;
-  padding: 5% 1% 5% 2%;
+  width: 25%;
+  margin: 2%;
+  padding: 2%;
+  display: flex;
+  flex-direction: row;
+  align-self: center;
+}
+
+@media screen and (max-width: 480px) {
+  .connect-div {
+  }
 }
 
 .row {
@@ -164,7 +186,7 @@ a.btn-shine {
   flex-direction: column;
   flex-basis: 100%;
   flex: 1;
-  border-left: 2px solid #3f3f44;
+  /* border-left: 2px solid #3f3f44; */
 }
 
 .btn-google {
@@ -185,12 +207,17 @@ a.btn-shine {
   width: auto;
   height: auto;
   margin-bottom: 2%;
+  margin-top: 2%;
 }
 
 .a-regsiter {
   display: block;
   width: auto;
   height: auto;
+}
+
+.social-media-div > a {
+  text-align: center;
 }
 
 /*************************** LOGIN SECTION *******************************/

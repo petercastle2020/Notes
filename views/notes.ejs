@@ -20,8 +20,8 @@
         
                 <div class="card-container">
                   <div class="card-body-container">
-                    <h5 class="card-title"><%= Note.title %></h5>
-                    <p class="card-text"> <%= Note.content %></p>
+                    <h5 class="card-title text-wrap" ><%= Note.title %></h5>
+                    <p class="card-text text-wrap" > <%= Note.content %></p>
                   </div>
                   <div class="card-btns">
                       <form class="btn-form" action="/delete" method="post">
@@ -45,37 +45,8 @@
 
         </div>
 
-          <!-- create cards -->
-          <!-- <div class="row">
-            <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 card-div">
-              <div class="card">
-                <div class="card-body">
-                  <h5 class="card-title">New Title</h5>
-                  <p class="card-text"> New Content.</p>
-                  
-                  <form class="compose-form" action="/compose" method="post">
-                    <h5 class="card-title"><input
-                      type="text"
-                      name="title"
-                      class="form-control"
-                      id="title"
-                      aria-describedby="emailHelp"
-                      autocomplete="off"
-                    /></h5>
-                    <p class="card-text"><textarea
-                      class="form-control"
-                      name="content"
-                      id="content"
-                      rows="3"
-                    ></textarea></p>
-                </form>
-                
-                  <form class="btn-form" action="/edit" method="post">
-                  
-                </form>
-                </div>
-              </div>
-            </div> -->
+         
+         
     
 
     <%- include("partials/footer"); -%>
