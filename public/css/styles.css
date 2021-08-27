@@ -93,6 +93,10 @@ a:hover {
   display: inline;
 }
 
+.new-card-margin {
+  margin-top: 0.5rem;
+}
+
 /*************************** NAV-BAR SECTION *******************************/
 
 .nav-bar-container {

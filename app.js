@@ -127,14 +127,6 @@ app.get("/notes", function (req, res) {
   }
 });
 
-app.get("/compose", function (req, res) {
-  if (req.isAuthenticated()) {
-    res.render("compose", { pageTitle: "Compose" });
-  } else {
-    res.redirect("/connect");
-  }
-});
-
 app.post("/compose", function (req, res) {
   const newTitle = req.body.title;
   const newContent = req.body.content;
