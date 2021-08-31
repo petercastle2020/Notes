@@ -1,16 +1,17 @@
 <%- include("partials/header"); -%>
   <body>
-    <div class="nav-bar-container">
-      <ul class="nav justify-content-end">
+    <div class="top-nav-bar">
+      <ul class="">
           <li class="nav-item">
-          <a class="" href="/worries">Notes</a>
+          <a class="standard-btn" href="/worries" role="button">Notes</a>
           </li>
           <li class="nav-item">
-          <a class="" href="/logout">Lot out </a>
+          <a class="standard-btn" href="/logout" role="button">Lot out </a>
           </li>  
           </li>
       </ul>
-  </div>
+    </div>
+  
         
   <div class="wrapper">
           <% userNotes.forEach(function(Note) { %>
@@ -56,7 +57,7 @@
                               placeholder="Title..."
                             />
                           </div>
-                          <div class="mb-3">
+                          <div class="mb-3 new-content-area">
                           
                               <textarea
                                 class="form-control new-card-margin"
@@ -66,7 +67,7 @@
                                 placeholder="Content..."
                               ></textarea>
 
-                              <button type="submit"  class="btn btn-outline-dark new-card-margin">
+                              <button type="submit"  class="new-card-btn btn btn-outline-dark">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
                                   <path d="M8 0a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2H9v6a1 1 0 1 1-2 0V9H1a1 1 0 0 1 0-2h6V1a1 1 0 0 1 1-1z"/>
                                 </svg>
