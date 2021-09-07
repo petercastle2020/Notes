@@ -110,6 +110,37 @@ passport.use(
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
+// function testing() {
+//   x = new Date();
+//   console.log(x);
+//   x.setSeconds(x.getSeconds() + 5); // x = current seconds + 5
+//   console.log(x);
+//   var t = new Date(x) - new Date(); // t = current date of (x) - current date;
+//   console.log(t);
+//   setTimeout(function () {
+//     console.log("Hello");
+//   }, t);
+// }
+
+// testing();
+
+function alarm(alarmParams) {
+  // Create new Date using the data from database.
+  let setAlarm = new Date(alarmParams);
+  console.log(setAlarm);
+  // Compare the current date - date from database
+  let alarmPlay = new Date(setAlarm) - new Date();
+  console.log(alarmPlay);
+  // Set the time out based on current date - date from database and display notification.
+  setTimeout(function () {
+    console.log("play the sound.");
+  }, alarmPlay);
+}
+
+alarm("2021-09-07T10:29:00");
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 app.get("/notes", function (req, res) {
   if (req.isAuthenticated()) {
     const userID = req.user._id;
