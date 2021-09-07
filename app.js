@@ -42,7 +42,13 @@ const userSchema = new mongoose.Schema({
   username: String,
   email: String,
   password: String,
-  notes: [{ title: String, content: String }],
+  notes: [
+    {
+      title: String,
+      content: String,
+      alarm: { type: String, default: "DDDDDDDDDDDDDD" },
+    },
+  ],
 });
 
 userSchema.plugin(passportLocalMongoose);
@@ -123,7 +129,7 @@ app.get("/notes", function (req, res) {
       }
     });
   } else {
-    res.redirect("/login");
+    res.redirect("/connect");
   }
 });
 
@@ -131,12 +137,17 @@ app.post("/compose", function (req, res) {
   const newTitle = req.body.title;
   const newContent = req.body.content;
   const userID = req.user._id;
+  const newAlarm = req.body.alarm;
 
   User.findByIdAndUpdate(
     { _id: userID },
     {
       $push: {
-        notes: { title: newTitle, content: newContent },
+        notes: {
+          title: newTitle,
+          content: newContent,
+          alarm: newAlarm,
+        },
       },
     },
     function (err) {
