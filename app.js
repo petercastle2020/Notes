@@ -46,7 +46,7 @@ const userSchema = new mongoose.Schema({
     {
       title: String,
       content: String,
-      alarm: { type: String, default: "DDDDDDDDDDDDDD" },
+      alarm: { type: String, default: "" },
     },
   ],
 });
