@@ -124,20 +124,20 @@ passport.use(
 
 // testing();
 
-function alarm(alarmParams) {
-  // Create new Date using the data from database.
-  let setAlarm = new Date(alarmParams);
-  console.log(setAlarm);
-  // Compare the current date - date from database
-  let alarmPlay = new Date(setAlarm) - new Date();
-  console.log(alarmPlay);
-  // Set the time out based on current date - date from database and display notification.
-  setTimeout(function () {
-    console.log("play the sound.");
-  }, alarmPlay);
-}
+// function alarm(alarmParams) {
+//   // Create new Date using the data from database.
+//   let setAlarm = new Date(alarmParams);
+//   console.log(setAlarm);
+//   // Compare the current date - date from database
+//   let alarmPlay = new Date(setAlarm) - new Date();
+//   console.log(alarmPlay);
+//   // Set the time out based on current date - date from database and display notification.
+//   setTimeout(function () {
+//     console.log("play the sound.");
+//   }, alarmPlay);
+// }
 
-alarm("2021-09-07T10:29:00");
+// alarm("2021-09-07T10:29:00");
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
