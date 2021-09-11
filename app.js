@@ -110,37 +110,6 @@ passport.use(
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-// function testing() {
-//   x = new Date();
-//   console.log(x);
-//   x.setSeconds(x.getSeconds() + 5); // x = current seconds + 5
-//   console.log(x);
-//   var t = new Date(x) - new Date(); // t = current date of (x) - current date;
-//   console.log(t);
-//   setTimeout(function () {
-//     console.log("Hello");
-//   }, t);
-// }
-
-// testing();
-
-// function alarm(alarmParams) {
-//   // Create new Date using the data from database.
-//   let setAlarm = new Date(alarmParams);
-//   console.log(setAlarm);
-//   // Compare the current date - date from database
-//   let alarmPlay = new Date(setAlarm) - new Date();
-//   console.log(alarmPlay);
-//   // Set the time out based on current date - date from database and display notification.
-//   setTimeout(function () {
-//     console.log("play the sound.");
-//   }, alarmPlay);
-// }
-
-// alarm("2021-09-07T10:29:00");
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
 app.get("/notes", function (req, res) {
   if (req.isAuthenticated()) {
     const userID = req.user._id;
@@ -165,55 +134,63 @@ app.get("/notes", function (req, res) {
 });
 
 app.post("/compose", function (req, res) {
-  const newTitle = req.body.title;
-  const newContent = req.body.content;
-  const userID = req.user._id;
-  const newAlarm = req.body.alarm;
+  if (req.isAuthenticated()) {
+    const newTitle = req.body.title;
+    const newContent = req.body.content;
+    const userID = req.user._id;
+    const newAlarm = req.body.alarm;
 
-  User.findByIdAndUpdate(
-    { _id: userID },
-    {
-      $push: {
-        notes: {
-          title: newTitle,
-          content: newContent,
-          alarm: newAlarm,
+    User.findByIdAndUpdate(
+      { _id: userID },
+      {
+        $push: {
+          notes: {
+            title: newTitle,
+            content: newContent,
+            alarm: newAlarm,
+          },
         },
       },
-    },
-    function (err) {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log("Note Added");
-        res.redirect("/notes");
+      function (err) {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log("Note Added");
+          res.redirect("/notes");
+        }
       }
-    }
-  );
+    );
+  } else {
+    res.redirect("/connect");
+  }
 });
 
 app.post("/delete", function (req, res) {
-  const deleteNote = req.body.delete;
-  const userID = req.user._id;
+  if (req.isAuthenticated()) {
+    const deleteNote = req.body.delete;
+    const userID = req.user._id;
 
-  User.updateOne(
-    { _id: userID },
-    {
-      $pull: {
-        notes: {
-          _id: deleteNote,
+    User.updateOne(
+      { _id: userID },
+      {
+        $pull: {
+          notes: {
+            _id: deleteNote,
+          },
         },
       },
-    },
-    function (err) {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log("Successfully deleted.");
-        res.redirect("/notes");
+      function (err) {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log("Successfully deleted.");
+          res.redirect("/notes");
+        }
       }
-    }
-  );
+    );
+  } else {
+    res.redirect("/connect");
+  }
 });
 
 app.get("/edit", function (req, res) {
@@ -225,56 +202,64 @@ app.get("/edit", function (req, res) {
 });
 
 app.post("/edit", function (req, res) {
-  const editNote = req.body.edit;
-  const userID = req.user._id;
+  if (req.isAuthenticated()) {
+    const editNote = req.body.edit;
+    const userID = req.user._id;
 
-  User.findById({ _id: userID }, function (err, foundUser) {
-    if (err) {
-      console.log(err);
-    } else {
-      const notesArray = foundUser.notes;
-
-      const note = findNote(editNote, notesArray);
-
-      function findNote(editNote, notesArray) {
-        for (let i = 0; i < notesArray.length; i++) {
-          if (notesArray[i]._id == editNote) {
-            return notesArray[i];
-          } else {
-            console.log("not found!");
-          }
-        }
-      }
-
-      res.render("edit", { note: note, pageTitle: "Edit" });
-    }
-  });
-});
-
-app.post("/save", function (req, res) {
-  const newTitle = req.body.title;
-  const newContent = req.body.content;
-  const idNote = req.body._id;
-  const userID = req.user._id;
-
-  User.updateOne(
-    { _id: userID, "notes._id": idNote },
-    {
-      $set: {
-        "notes.$.title": newTitle,
-        "notes.$.content": newContent,
-      },
-    },
-    function (err) {
+    User.findById({ _id: userID }, function (err, foundUser) {
       if (err) {
         console.log(err);
       } else {
-        console.log("Successfully updated.");
-      }
-    }
-  );
+        const notesArray = foundUser.notes;
 
-  res.redirect("/notes");
+        const note = findNote(editNote, notesArray);
+
+        function findNote(editNote, notesArray) {
+          for (let i = 0; i < notesArray.length; i++) {
+            if (notesArray[i]._id == editNote) {
+              return notesArray[i];
+            } else {
+              console.log("not found!");
+            }
+          }
+        }
+
+        res.render("edit", { note: note, pageTitle: "Edit" });
+      }
+    });
+  } else {
+    res.redirect("/connect");
+  }
+});
+
+app.post("/save", function (req, res) {
+  if (req.isAuthenticated()) {
+    const newTitle = req.body.title;
+    const newContent = req.body.content;
+    const idNote = req.body._id;
+    const userID = req.user._id;
+
+    User.updateOne(
+      { _id: userID, "notes._id": idNote },
+      {
+        $set: {
+          "notes.$.title": newTitle,
+          "notes.$.content": newContent,
+        },
+      },
+      function (err) {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log("Successfully updated.");
+        }
+      }
+    );
+
+    res.redirect("/notes");
+  } else {
+    res.redirect("/connect");
+  }
 });
 
 app.post("/register", function (req, res) {
