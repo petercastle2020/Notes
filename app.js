@@ -47,6 +47,7 @@ const userSchema = new mongoose.Schema({
       title: String,
       content: String,
       alarm: { type: String, default: "" },
+      formattedTimeNote: { type: String, default: "" },
     },
   ],
 });
@@ -138,7 +139,38 @@ app.post("/compose", function (req, res) {
     const newTitle = req.body.title;
     const newContent = req.body.content;
     const userID = req.user._id;
-    const newAlarm = req.body.alarm;
+    let newAlarm = req.body.alarm;
+
+    if (newAlarm === "") {
+      newAlarm = new Date();
+    }
+
+    const months = [
+      "JAN",
+      "FEB",
+      "MAR",
+      "APR",
+      "MAY",
+      "JUN",
+      "JUL",
+      "AUG",
+      "SEP",
+      "OCT",
+      "NOV",
+      "DEC",
+    ];
+    let current_datetime = new Date(newAlarm);
+
+    let formattedTimeNote =
+      current_datetime.getDate() +
+      "-" +
+      months[current_datetime.getMonth()] +
+      "-" +
+      current_datetime.getFullYear() +
+      " " +
+      current_datetime.getHours() +
+      ":" +
+      current_datetime.getMinutes();
 
     User.findByIdAndUpdate(
       { _id: userID },
@@ -148,6 +180,7 @@ app.post("/compose", function (req, res) {
             title: newTitle,
             content: newContent,
             alarm: newAlarm,
+            formattedTimeNote: formattedTimeNote,
           },
         },
       },
