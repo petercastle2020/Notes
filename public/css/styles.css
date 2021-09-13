@@ -55,6 +55,8 @@ ul {
 
 .card-btns {
   margin-top: auto;
+  display: flex;
+  flex-direction: row;
 }
 
 .card-btns .btn {
@@ -64,6 +66,20 @@ ul {
   display: inline;
   margin: 0.5rem 0rem 0.5rem 0.5rem;
 }
+
+.display-note-time {
+  display: inline;
+  line-height: 1rem;
+  font-size: smaller;
+  margin-right: 0.5rem;
+}
+
+.display-note {
+  display: inline;
+  justify-content: right;
+  margin: auto 0.5rem auto auto;
+}
+
 .compose-form {
   padding: 5%;
 }
@@ -75,6 +91,7 @@ ul {
 .btn-form {
   position: relative;
   display: inline;
+  margin: auto 0 auto 0;
 }
 
 /*************************** NEW NOTE SECTION *******************************/
