@@ -271,6 +271,38 @@ app.post("/save", function (req, res) {
     const newContent = req.body.content;
     const idNote = req.body._id;
     const userID = req.user._id;
+    let newAlarm = req.body.alarm;
+
+    if (newAlarm === "") {
+      newAlarm = new Date();
+    }
+
+    const months = [
+      "JAN",
+      "FEB",
+      "MAR",
+      "APR",
+      "MAY",
+      "JUN",
+      "JUL",
+      "AUG",
+      "SEP",
+      "OCT",
+      "NOV",
+      "DEC",
+    ];
+    let current_datetime = new Date(newAlarm);
+
+    let formattedTimeNote =
+      current_datetime.getDate() +
+      "-" +
+      months[current_datetime.getMonth()] +
+      "-" +
+      current_datetime.getFullYear() +
+      " " +
+      current_datetime.getHours() +
+      ":" +
+      current_datetime.getMinutes();
 
     User.updateOne(
       { _id: userID, "notes._id": idNote },
@@ -278,6 +310,8 @@ app.post("/save", function (req, res) {
         $set: {
           "notes.$.title": newTitle,
           "notes.$.content": newContent,
+          "notes.$.alarm": newAlarm,
+          "notes.$.formattedTimeNote": formattedTimeNote,
         },
       },
       function (err) {

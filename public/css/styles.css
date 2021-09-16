@@ -108,6 +108,10 @@ ul {
   margin-bottom: 0 !important;
 }
 
+.alarm-input {
+  color: rgba(0, 0, 0, 0.6);
+  padding: 0.15rem 0.25rem;
+}
 /*************************** NAV-BAR SECTION *******************************/
 
 .top-nav-bar {

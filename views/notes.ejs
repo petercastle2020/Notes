@@ -115,14 +115,13 @@
        
         <% userNotes.forEach(function(Note) { %>
 
-          function showNotification() {
+            function showNotification() {
+                  const notification = new Notification("<%= Note.title %>", {
+                    body: "<%= Note.content %>",
+                    icon: "/css/images/notificationIcon.jpg",
+                });
+            };
 
-            const notification = new Notification("<%= Note.title %>", {
-              
-              body: "<%= Note.content %>",
-              icon: "/css/images/notificationIcon.jpg"
-          })
-          }
 
             function alarm() {
                 // Create new Date using the data from database.
