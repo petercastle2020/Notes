@@ -113,32 +113,41 @@
         // Notification! 
 
        
-        <% userNotes.forEach(function(Note) { %>
+            <% userNotes.forEach(function(Note) { %>
 
-            function showNotification() {
-                  const notification = new Notification("<%= Note.title %>", {
-                    body: "<%= Note.content %>",
-                    icon: "/css/images/notificationIcon.jpg",
-                });
-            };
+                function showNotification() {
+                      const titleNote = "<%= Note.title %>";
+                      const bodyNote = "<%= Note.content %>";
+                      const notification = new Notification(titleNote, {
+                        body: bodyNote,
+                        icon: "/css/images/notificationIcon.jpg",
+                    });
+
+                    notification.onclick = (e) => {
+                      window.location.href = "https://localhost:3000/notes#";
+                    };
+
+                };
+
+                  
+                  function alarm() {
+                      const noteAlarm = "<%= Note.alarm %>";
+                      // Create new Date using the data from database.
+                      let setAlarm = new Date(noteAlarm);
+                      // Compare the current date - date from database
+                      let alarmPlay = new Date(setAlarm) - new Date();
+                      // Set the time out based on current date - date from database and display notification.
+                      setTimeout(function () {
+                        showNotification();
+                      }, alarmPlay);
+                    }
+
+                    alarm();
+
+            <% }); %>
 
 
-            function alarm() {
-                // Create new Date using the data from database.
-                let setAlarm = new Date("<%= Note.alarm %>");
-                // Compare the current date - date from database
-                let alarmPlay = new Date(setAlarm) - new Date();
-                // Set the time out based on current date - date from database and display notification.
-                setTimeout(function () {
-                  showNotification();
-                }, alarmPlay);
-              }
-
-
-              alarm();
-
-
-        <% }); %>
+            
 
 
         
