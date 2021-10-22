@@ -112,12 +112,10 @@
          
         // Notification! 
 
-       
-            <% userNotes.forEach(function(Note) { %>
-
-                function showNotification() {
-                      const titleNote = "<%= Note.title %>";
-                      const bodyNote = "<%= Note.content %>";
+        function showNotification(title, content) {
+              
+                      const titleNote = title;
+                      const bodyNote = content;
                       const notification = new Notification(titleNote, {
                         body: bodyNote,
                         icon: "/css/images/notificationIcon.jpg",
@@ -126,12 +124,12 @@
                     notification.onclick = (e) => {
                       window.location.href = "https://localhost:3000/notes#";
                     };
-
+                
                 };
 
-                  
-                  function alarm() {
-                      const noteAlarm = "<%= Note.alarm %>";
+
+                function alarm(time) {
+                      const noteAlarm = time;
                       // Create new Date using the data from database.
                       let setAlarm = new Date(noteAlarm);
                       // Compare the current date - date from database
@@ -140,11 +138,22 @@
                       setTimeout(function () {
                         showNotification();
                       }, alarmPlay);
+
+                    
+
                     }
+            
 
-                    alarm();
+       
+            <% userNotes.forEach(function(Note) { %>
+                
+              showNotification("<%=Note.title%>", "<%=Note.content%>");  
 
+              alarm("<%=Note.alarm%>");
+                    
             <% }); %>
+
+
 
 
             
