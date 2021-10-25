@@ -128,36 +128,32 @@
  
   };
 
-    
+  function alarm(time, title, content) {
 
-
-      <% userNotes.forEach(function(Note) { %>
-      
-      
-
-      function alarm(time) {
+          const titleText = title;
+          const contentText = content;
           const noteAlarm = time;
           // Create new Date using the data from database.
           let setAlarm = new Date(noteAlarm);
           // Compare the current date - date from database
           let alarmPlay = new Date(setAlarm) - new Date();
           // Set the time out based on current date - date from database and display notification.
-
-          console.log("<%=Note.title%>");
-
-          setTimeout(function () {
-            showNotification("<%=Note.title%>", "<%=Note.content%>");
+       setTimeout(function () {
+            showNotification(titleText, contentText);
           }, alarmPlay);
 
         
+        }
 
-     }
+    
 
-      alarm("<%=Note.alarm%>");
 
-      <%  console.log(Note); %>
+          <% userNotes.forEach(function(Note) { %>
           
-      <% }); %>
+            alarm("<%=Note.alarm%>", "<%=Note.title%>", "<%=Note.content%>");
+        
+
+        <% }); %>
 
 
 
