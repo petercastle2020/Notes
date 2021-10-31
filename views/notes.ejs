@@ -3,7 +3,7 @@
     <div class="top-nav-bar">
       <ul class="">
           <li class="nav-item">
-          <a class="standard-btn" href="/worries" role="button">Notes</a>
+          <a class="standard-btn" href="/notes" role="button">Notes</a>
           </li>
           <li class="nav-item">
           <a class="standard-btn" href="/logout" role="button">Lot out </a>
@@ -78,7 +78,7 @@
                                 class="form-control"
                                 name="content"
                                 id="content"
-                                rows="3"
+                                rows="0"
                                 placeholder="Content..."
                               ></textarea>
                   
@@ -120,30 +120,39 @@
        const notification = new Notification(titleNote, {
          body: bodyNote,
          icon: "/css/images/notificationIcon.jpg",
-     });
+          });
 
-     notification.onclick = (e) => {
-       window.location.href = "https://localhost:3000/notes#";
-     };
- 
-  };
+          notification.onclick = (e) => {
+            window.location.href = "https://localhost:3000/notes#";
+          };
+      
+      };
 
-  function alarm(time, title, content) {
+      function alarm(time, title, content) {
 
-          const titleText = title;
-          const contentText = content;
-          const noteAlarm = time;
-          // Create new Date using the data from database.
-          let setAlarm = new Date(noteAlarm);
-          // Compare the current date - date from database
-          let alarmPlay = new Date(setAlarm) - new Date();
-          // Set the time out based on current date - date from database and display notification.
-       setTimeout(function () {
-            showNotification(titleText, contentText);
-          }, alarmPlay);
+              const titleText = title;
+              const contentText = content;
+              const noteAlarm = time;
+              // Create new Date using the data from database.
+              let setAlarm = new Date(noteAlarm);
+              // Compare the current date - date from database
+              let alarmPlay = new Date(setAlarm) - new Date();
+              //Check if the number is a negative/Nan
+              let isNegative = Math.sign(alarmPlay)
 
-        
-        }
+              if(isNegative === -1 || NaN ) {
+                return
+              } else {
+                      // Set the time out based on current date - date from database and display notification.
+          setTimeout(function () {
+                showNotification(titleText, contentText);
+              }, alarmPlay);
+              }
+
+          
+
+            
+      }
 
     
 
@@ -152,18 +161,9 @@
           
             alarm("<%=Note.alarm%>", "<%=Note.title%>", "<%=Note.content%>");
         
+          <% }); %>
 
-        <% }); %>
-
-
-
-
-
-
-
-          
-
-                console.log(Notification.permission);
+               console.log(Notification.permission);
                   if (Notification.permission === "granted") {
                           console.log("we have permission");
                   } else if (Notification.permission !== "denied") {

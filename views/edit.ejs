@@ -25,10 +25,7 @@
         </div>
         <div class="mb-3">
           <label for="content">Content</label>
-          <textarea class="form-control" name="content" id="content" rows="3">
-<%= note.content %>
-        </textarea
-          >
+          <textarea class="form-control" name="content" id="content" rows="0"><%= note.content %></textarea>
         </div>
         <button type="submit" class="btn btn-outline-dark">Save</button> 
         <input class="alarm-input" type="datetime-local" id="alarm" name="alarm" value="<%= note.alarm %>">
