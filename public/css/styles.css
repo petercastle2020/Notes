@@ -46,7 +46,7 @@ ul {
     border-radius: 0.2rem;
     box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.1);
     margin: 0.5rem 0.5rem 0.5rem 0.5rem;
-    width: 29vw;
+    width: 31%;
     overflow: hidden;
     box-sizing: border-box;
     display: flex;
@@ -60,7 +60,7 @@ ul {
     border-radius: 0.2rem;
     box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.1);
     margin: 0.5rem 0.5rem 0.5rem 0.5rem;
-    width: 40vw;
+    width: 45%;
     overflow: hidden;
     box-sizing: border-box;
     display: flex;
@@ -75,13 +75,6 @@ ul {
 
   .top-nav-bar {
     padding: 2% 2%;
-  }
-
-  .new-card-container {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    justify-content: center;
   }
 }
 
@@ -169,6 +162,15 @@ ul {
   padding: 0.15rem 0.25rem;
 }
 
+@media screen and (max-width: 850px) {
+  .new-card-container {
+    display: flex;
+    flex-direction: row;
+    width: 70%;
+    justify-content: center;
+  }
+}
+
 @media screen and (max-width: 600px) {
   .new-card-container {
     display: flex;
@@ -177,6 +179,7 @@ ul {
     justify-content: center;
   }
 }
+
 /*************************** NAV-BAR SECTION *******************************/
 
 .top-nav-bar {
