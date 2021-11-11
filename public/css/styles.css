@@ -25,6 +25,7 @@ ul {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .card-container {
@@ -37,6 +38,34 @@ ul {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+}
+
+@media screen and (max-width: 1100px) {
+  .card-container {
+    border: rgba(0, 0, 0, 0.25) solid 0.5px;
+    border-radius: 0.2rem;
+    box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.1);
+    margin: 0.5rem 0.5rem 0.5rem 0.5rem;
+    width: 29vw;
+    overflow: hidden;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media screen and (max-width: 850px) {
+  .card-container {
+    border: rgba(0, 0, 0, 0.25) solid 0.5px;
+    border-radius: 0.2rem;
+    box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.1);
+    margin: 0.5rem 0.5rem 0.5rem 0.5rem;
+    width: 40vw;
+    overflow: hidden;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 @media screen and (max-width: 600px) {
@@ -132,7 +161,7 @@ ul {
 .new-content-area {
   margin-top: 2%;
   margin-bottom: 0 !important;
-  resize: none;
+  resize: none !important;
 }
 
 .alarm-input {
