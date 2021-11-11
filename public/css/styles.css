@@ -17,6 +17,12 @@ ul {
   list-style-type: none;
 }
 
+.background-notes {
+  background-color: #b9b9ca;
+  position: absolute;
+  z-index: -20;
+}
+
 .text-wrap {
   word-break: normal;
 }
@@ -154,7 +160,10 @@ ul {
 .new-content-area {
   margin-top: 2%;
   margin-bottom: 0 !important;
-  resize: none !important;
+}
+
+.new-content-area textarea {
+  resize: none;
 }
 
 .alarm-input {
