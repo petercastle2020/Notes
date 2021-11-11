@@ -55,8 +55,15 @@
 
             <% }); %>
 
-            <div class="card-container">
-              <div class="card-body-container">
+           
+        </div>
+
+
+
+      <div class="new-note-container">
+
+            <div class="card-container new-card-container">
+              <div class="card-body-container new-card-body">
 
                 
                       <form class="btn-form" action="/compose" method="post">  
@@ -78,11 +85,12 @@
                                 class="form-control"
                                 name="content"
                                 id="content"
-                                rows="0"
+                                rows="8"
                                 placeholder="Content..."
+                                
                               ></textarea>
                   
-                             
+                            
                               <div class="alarm-div">
                                 <button type="submit"  class="new-card-btn btn btn-outline-dark">
                                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
@@ -100,8 +108,7 @@
               </div>
             </div>
 
-        </div>
-
+      </div>
 
   
       
