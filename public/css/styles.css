@@ -26,31 +26,34 @@ ul {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
+  background: rgb(240, 248, 255); /* aliceblue */
 }
 
 .card-container {
   border: rgba(0, 0, 0, 0.25) solid 0.5px;
   border-radius: 0.2rem;
-  box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.3);
   margin: 0.5rem 0.5rem 0.5rem 0.5rem;
   width: 23vw;
   overflow: hidden;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  background-color: rgb(255, 255, 255);
 }
 
 @media screen and (max-width: 1100px) {
   .card-container {
     border: rgba(0, 0, 0, 0.25) solid 0.5px;
     border-radius: 0.2rem;
-    box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.3);
     margin: 0.5rem 0.5rem 0.5rem 0.5rem;
     width: 31%;
     overflow: hidden;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
+    background-color: rgb(255, 255, 255);
   }
 }
 
@@ -58,7 +61,7 @@ ul {
   .card-container {
     border: rgba(0, 0, 0, 0.25) solid 0.5px;
     border-radius: 0.2rem;
-    box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.3);
     margin: 0.5rem 0.5rem 0.5rem 0.5rem;
     width: 45%;
     overflow: hidden;
@@ -98,6 +101,10 @@ ul {
   margin: 0.5rem 0rem 0.5rem 0.5rem;
 }
 
+.note-icon {
+  color: rgb(255, 255, 255);
+}
+
 .display-note-time {
   display: inline;
   line-height: 1rem;
@@ -131,6 +138,7 @@ ul {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  background: rgb(240, 248, 255); /* aliceblue */
 }
 
 .new-card-container {
