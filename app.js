@@ -330,20 +330,24 @@ app.post("/save", function (req, res) {
 });
 
 app.post("/register", function (req, res) {
-  User.register(
-    { username: req.body.username },
-    req.body.password,
-    function (err, user) {
-      if (err) {
-        console.log(err);
-        res.redirect("/register");
-      } else {
-        passport.authenticate("local")(req, res, function () {
-          res.redirect("/notes");
-        });
+  if (req.body.password !== req.body.confirmPassword) {
+    res.redirect("/register");
+  } else {
+    User.register(
+      { username: req.body.username },
+      req.body.password,
+      function (err, user) {
+        if (err) {
+          console.log(err);
+          res.redirect("/register");
+        } else {
+          passport.authenticate("local")(req, res, function () {
+            res.redirect("/notes");
+          });
+        }
       }
-    }
-  );
+    );
+  }
 });
 
 app.post("/login", function (req, res) {

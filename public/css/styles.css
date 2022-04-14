@@ -136,8 +136,10 @@ ul {
 
 .new-note-container {
   display: flex;
-  flex-direction: row;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 90%;
   background: rgb(240, 248, 255); /* aliceblue */
 }
 
@@ -376,6 +378,8 @@ a.btn-shine {
   flex-direction: column;
   flex-basis: 100%;
   flex: 1;
+  overflow-x: hidden;
+  overflow-y: hidden;
   /* border-left: 2px solid #3f3f44; */
 }
 
@@ -455,6 +459,8 @@ h1.register {
 .register-div {
   display: block;
   margin: 15% 30%;
+  overflow-x: hidden;
+  overflow-y: hidden;
 }
 .register-div .row {
   display: inline;
