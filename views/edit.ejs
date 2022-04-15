@@ -7,7 +7,7 @@
           <input
             type="hidden"
             name="_id"
-            class="form-control"
+            class="card-input"
             id="id"
             aria-describedby="emailHelp"
             value="<%= note._id %>"
@@ -16,7 +16,7 @@
           <input
             type="text"
             name="title"
-            class="form-control"
+            class="card-input"
             id="title"
             aria-describedby="emailHelp"
             value="<%= note.title %>"
@@ -25,7 +25,7 @@
         </div>
         <div class="mb-3">
           <label for="content">Content</label>
-          <textarea class="form-control" name="content" id="content" rows="0"><%= note.content %></textarea>
+          <textarea class="card-input" name="content" id="content" rows="0"><%= note.content %></textarea>
         </div>
         <button type="submit" class="btn btn-outline-dark">Save</button> 
         <input class="alarm-input" type="datetime-local" id="alarm" name="alarm" value="<%= note.alarm %>">
