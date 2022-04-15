@@ -2,13 +2,10 @@ require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-/////////////////////////////////////////////////////////////////////////////////////////
 const session = require("express-session");
 const passport = require("passport");
 const passportLocalMongoose = require("passport-local-mongoose");
-///////////////////////////////////////////////////////////////////////////////////////////////
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
-const FacebookStrategy = require("passport-facebook").Strategy;
 const findOrCreate = require("mongoose-findorcreate");
 
 const app = express();
@@ -27,7 +24,6 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
-////////////////////////////////////////////////////////////////////////////////////////////////
 
 mongoose.connect("mongodb://localhost:27017/notesDB", {
   useNewUrlParser: true,
@@ -37,7 +33,6 @@ mongoose.connect("mongodb://localhost:27017/notesDB", {
 });
 
 const userSchema = new mongoose.Schema({
-  facebookId: String,
   googleId: String,
   username: String,
   email: String,
@@ -89,28 +84,6 @@ passport.use(
   )
 );
 
-// Facebook
-
-passport.use(
-  new FacebookStrategy(
-    {
-      clientID: process.env.FACEBOOK_APP_ID,
-      clientSecret: process.env.FACEBOOK_APP_SECRET,
-      callbackURL: "http://localhost:3000/auth/facebook/notes",
-    },
-    function (accessToken, refreshToken, profile, cb) {
-      User.findOrCreate(
-        { facebookId: profile.id, username: profile.displayName },
-        function (err, user) {
-          return cb(err, user);
-        }
-      );
-    }
-  )
-);
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
 app.get("/notes", function (req, res) {
   if (req.isAuthenticated()) {
     const userID = req.user._id;
@@ -119,8 +92,6 @@ app.get("/notes", function (req, res) {
       if (err) {
         console.log(err);
       } else {
-        // mongoose.connection.close();
-
         const userNotes = foundUser.notes;
 
         res.render("notes", {
@@ -384,21 +355,6 @@ app.get(
   passport.authenticate("google", { failureRedirect: "/connect" }),
   function (req, res) {
     //Successful authentication, redirect to notes.
-    res.redirect("/notes");
-  }
-);
-
-// Facebook
-app.get(
-  "/auth/facebook",
-  passport.authenticate("facebook", { scope: ["public_profile"] })
-);
-
-app.get(
-  "/auth/facebook/notes",
-  passport.authenticate("facebook", { failureRedirect: "/connect" }),
-  function (req, res) {
-    // Successful authentication, redirect notes.
     res.redirect("/notes");
   }
 );
