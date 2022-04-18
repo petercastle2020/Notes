@@ -2,7 +2,8 @@ require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-const session = require("cookie-session");
+const session = require("express-session");
+const MongoStore = require("connect-mongo");
 const passport = require("passport");
 const passportLocalMongoose = require("passport-local-mongoose");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
@@ -19,6 +20,10 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
+    store: MongoStore.create({
+      mongoUrl: process.env.DATA_BASE_URL,
+      ttl: 14 * 24 * 60 * 60, // = 14 days. Default
+    }),
   })
 );
 
