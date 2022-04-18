@@ -88,7 +88,7 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "http://localhost:3000/auth/google/notes",
+      callbackURL: "http://notes-notify-app.herokuapp.com/auth/google/notes",
     },
     function (accessToken, refreshToken, profile, done) {
       User.findOrCreate(
