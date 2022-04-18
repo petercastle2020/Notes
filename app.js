@@ -21,7 +21,12 @@ app.use(
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({
-      mongoUrl: process.env.DATA_BASE_URL,
+      mongoUrl:
+        "mongodb+srv://" +
+        process.env.DATA_BASE_URL_USER +
+        ":" +
+        process.env.DATA_BASE_URL_PASSWORD +
+        "@cluster0.12fad.mongodb.net/notesDB?retryWrites=true&w=majority",
       ttl: 14 * 24 * 60 * 60, // = 14 days. Default
     }),
   })
@@ -30,12 +35,19 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-mongoose.connect(process.env.DATA_BASE_URL, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useFindAndModify: false,
-  useCreateIndex: true,
-});
+mongoose.connect(
+  "mongodb+srv://" +
+    process.env.DATA_BASE_URL_USER +
+    ":" +
+    process.env.DATA_BASE_URL_PASSWORD +
+    "@cluster0.12fad.mongodb.net/notesDB?retryWrites=true&w=majority",
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+    useCreateIndex: true,
+  }
+);
 
 const userSchema = new mongoose.Schema({
   googleId: String,
