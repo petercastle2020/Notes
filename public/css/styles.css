@@ -274,6 +274,17 @@ ul {
 .standard-btn:hover:before {
   left: 100%;
 }
+
+.notes-link {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.log-out-link {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
 /*************************** HOME SECTION *******************************/
 
 .home-btn {
